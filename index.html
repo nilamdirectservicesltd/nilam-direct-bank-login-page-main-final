@@ -3,24 +3,337 @@
 <head>
   <meta charset="utf-8">
   <title>Nilam Direct Bank Login Form</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Global styles */
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+    
+    :root {
+      --primary-dark: #433878;
+      --primary: #7E60BF;
+      --primary-light: #E4B1F0;
+      --accent: #FFE1FF;
+      --text-dark: #333;
+      --text-light: #f5f5f5;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Montserrat', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--primary-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    
+    /* Animated gradient background */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary), var(--primary-light));
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      z-index: -1;
+      opacity: 0.9;
+    }
+    
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Floating bubbles animation */
+    .bubbles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .bubble {
+      position: absolute;
+      bottom: -100px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: floating 15s infinite ease-in;
+    }
+    
+    @keyframes floating {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+      }
+    }
+    
+    /* Login form styles */
+    .center {
+      width: 400px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+      padding: 40px;
+      transform: scale(0.95);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .center:hover {
+      transform: scale(1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .center::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary), var(--primary-dark));
+      animation: progress 2s ease-in-out infinite;
+    }
+    
+    @keyframes progress {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    .center h1 {
+      text-align: center;
+      padding: 0 0 20px 0;
+      color: var(--primary-dark);
+      font-weight: 600;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .center h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 3px;
+    }
+    
+    .center form {
+      padding: 0;
+    }
+    
+    form .txt_field {
+      position: relative;
+      margin: 30px 0;
+      border-bottom: 2px solid #d9d9d9;
+      transition: all 0.3s ease;
+    }
+    
+    .txt_field:hover {
+      border-bottom-color: var(--primary-light);
+    }
+    
+    .txt_field input {
+      width: 100%;
+      padding: 0 5px;
+      height: 40px;
+      font-size: 16px;
+      border: none;
+      background: none;
+      outline: none;
+      color: var(--text-dark);
+    }
+    
+    .txt_field label {
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      color: #adadad;
+      transform: translateY(-50%);
+      font-size: 16px;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+    
+    .txt_field input:focus ~ label,
+    .txt_field input:valid ~ label {
+      top: -5px;
+      color: var(--primary);
+      font-size: 14px;
+    }
+    
+    .txt_field input:focus ~ .underline,
+    .txt_field input:valid ~ .underline {
+      width: 100%;
+    }
+    
+    .underline {
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: all 0.4s ease;
+    }
+    
+    .pass {
+      margin: -5px 0 20px 5px;
+      color: #a6a6a6;
+      cursor: pointer;
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    
+    .pass:hover {
+      color: var(--primary);
+      transform: translateX(5px);
+    }
+    
+    input[type="submit"] {
+      width: 100%;
+      height: 50px;
+      border: none;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      border-radius: 25px;
+      font-size: 18px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+      outline: none;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    input[type="submit"]:hover {
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(126, 96, 191, 0.3);
+    }
+    
+    input[type="submit"]:active {
+      transform: translateY(-1px);
+    }
+    
+    input[type="submit"]::after {
+      content: '';
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      border-radius: 25px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+      transition: all 0.4s;
+    }
+    
+    input[type="submit"]:hover::after {
+      transform: scaleX(1.4) scaleY(1.6);
+      opacity: 0;
+    }
+    
+    .signup_link {
+      margin: 30px 0;
+      text-align: center;
+      font-size: 16px;
+      color: #666666;
+    }
+    
+    .signup_link a {
+      color: var(--primary);
+      text-decoration: none;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .signup_link a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: all 0.3s ease;
+    }
+    
+    .signup_link a:hover {
+      color: var(--primary-dark);
+    }
+    
+    .signup_link a:hover::after {
+      width: 100%;
+    }
+    
+    /* Floating animation */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .floating {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    /* Ripple effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(0);
+      animation: ripple 0.6s linear;
+      pointer-events: none;
+    }
+    
+    @keyframes ripple {
+      to {
+        transform: scale(2.5);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
-  <video autoplay loop muted poster="" id="myVideo">
-    <source src="Tricolor Ink Background Loop _ Independence Day _ India _ 15 August(1080P_HD).mp4">
-  </video>
-
-  <div class="center">
+  <!-- Floating bubbles background -->
+  <div class="bubbles" id="bubbles"></div>
+  
+  <div class="center floating">
     <h1>Login To View</h1>
     <form method="post" id="loginForm">
       <div class="txt_field">
         <input type="text" name="username" required>
-        <span></span>
+        <span class="underline"></span>
         <label>Username</label>
       </div>
       <div class="txt_field">
         <input type="password" name="password" required>
-        <span></span>
+        <span class="underline"></span>
         <label>Password</label>
       </div>
       <div class="pass">
@@ -32,6 +345,110 @@
       </div>
     </form>
   </div>
-  <script src="main.js"></script>
+
+  <script>
+    // Create floating bubbles
+    function createBubbles() {
+      const bubblesContainer = document.getElementById('bubbles');
+      const bubbleCount = 15;
+      
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        
+        // Random size between 40px and 100px
+        const size = Math.random() * 60 + 40;
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        
+        // Random position
+        bubble.style.left = `${Math.random() * 100}%`;
+        
+        // Random animation duration between 10s and 20s
+        bubble.style.animationDuration = `${Math.random() * 10 + 10}s`;
+        
+        // Random delay
+        bubble.style.animationDelay = `${Math.random() * 5}s`;
+        
+        bubblesContainer.appendChild(bubble);
+      }
+    }
+    
+    // Ripple effect for buttons
+    function createRipple(event) {
+      const button = event.currentTarget;
+      const circle = document.createElement('span');
+      circle.classList.add('ripple');
+      
+      const diameter = Math.max(button.clientWidth, button.clientHeight);
+      const radius = diameter / 2;
+      
+      circle.style.width = `${diameter}px`;
+      circle.style.height = `${diameter}px`;
+      circle.style.left = `${event.clientX - button.getBoundingClientRect().left - radius}px`;
+      circle.style.top = `${event.clientY - button.getBoundingClientRect().top - radius}px`;
+      
+      const ripple = button.getElementsByClassName('ripple')[0];
+      if (ripple) {
+        ripple.remove();
+      }
+      
+      button.appendChild(circle);
+    }
+    
+    // Form submission
+    const form = document.getElementById('loginForm');
+    const submitBtn = form.querySelector('input[type="submit"]');
+    
+    submitBtn.addEventListener('click', createRipple);
+    
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      
+      // Get form input values
+      const username = document.querySelector('input[name="username"]').value;
+      const password = document.querySelector('input[name="password"]').value;
+      
+      // Add loading animation
+      submitBtn.value = 'Logging in...';
+      submitBtn.disabled = true;
+      
+      // Simulate login process
+      setTimeout(() => {
+        // Redirect to the main website after successful login
+        const redirectURL = 'http://surl.li/jywib';
+        window.location.href = redirectURL;
+      }, 1500);
+    });
+    
+    // Initialize animations when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      createBubbles();
+      
+      // Add animation to form elements
+      const formElements = document.querySelectorAll('.txt_field, .pass, .signup_link');
+      formElements.forEach((el, index) => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.animation = `fadeInUp 0.5s ease forwards ${index * 0.1 + 0.3}s`;
+      });
+      
+      // Add keyframe for fadeInUp animation
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    });
+  </script>
 </body>
 </html>
